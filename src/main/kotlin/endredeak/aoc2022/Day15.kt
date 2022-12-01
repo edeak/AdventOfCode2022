@@ -2,15 +2,13 @@ package endredeak.aoc2022
 
 fun main() {
     solve( "") {
-        mapper {
-            it
-        }
+        val input = lines
 
-        part1 { input ->
+        part1 {
 
         }
 
-        part2 { input ->
+        part2 {
 
         }
     }

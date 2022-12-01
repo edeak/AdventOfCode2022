@@ -4,11 +4,9 @@ import java.io.File
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTimedValue
 
-private const val resourcePath = "src/main/resources"
+private const val RESOURCE_PATH = "src/main/resources"
 
-data class Solution<T>(
-    val name: String,
-) {
+data class Solution(val name: String) {
     private val dayFormatted by lazy {
         Throwable().stackTrace
             .first { it.className.contains("Day") }
@@ -18,47 +16,40 @@ data class Solution<T>(
             .let { "Day$it" }
     }
 
-    private var part1: (List<T>) -> Any = { -1 }
-    private var expected1 = -1
+    private var part1: () -> Any = { -1 }
+    private var expected1: Any = -1
 
-    private var part2: (List<T>) -> Any = { -1 }
-    private var expected2 = -1
+    private var part2: () -> Any = { -1 }
+    private var expected2: Any = -1
 
-    private var mapper: (List<String>) -> List<T> = { emptyList() }
+    fun part1(expected: Any = -1, block: () -> Any) {
+        expected1 = expected; part1 = block
+    }
 
-    fun mapper(block: (List<String>) -> List<T>) { mapper = block }
+    fun part2(expected: Any = -1, block: () -> Any) {
+        expected2 = expected; part2 = block
+    }
 
-    fun part1(expected: Int = -1, block: (List<T>) -> Any) { expected1 = expected; part1 = block }
-    fun part2(expected: Int = -1, block: (List<T>) -> Any) { expected2 = expected; part2 = block }
+    val lines = File("$RESOURCE_PATH/${dayFormatted}.txt")
+        .readLines()
 
     fun execute() {
-        File("$resourcePath/${dayFormatted}.txt")
-            .readLines()
-            .let { mapper(it) }
-            .let { input ->
-                measure(1, part1, input)
-                measure(2, part2, input)
-            }
+        runPart(1, part1)
+        runPart(2, part2)
     }
 
     @OptIn(ExperimentalTime::class)
-    private fun measure(part: Int, block: (List<T>) -> Any, input: List<T>) {
-        measureTimedValue { block(input) }.let { (answer, time) ->
-            println("2022 $dayFormatted: $name -- part $part -- (in [${time.inWholeMilliseconds} ms]): $answer")
+    private fun runPart(part: Int, block: () -> Any) {
+        measureTimedValue { block() }.let { (answer, time) ->
+            println("2022 $dayFormatted: $name -- part $part -- " +
+                    "(in [${time.inWholeMicroseconds} microsecs]):" +
+                    " ${if (answer is Unit) "-1" else answer}")
         }
     }
 }
 
-@JvmName("solveGeneric")
-inline fun <reified T> solve(name: String, init: Solution<T>.() -> Unit) =
-    Solution<T>(name).let { solution ->
+fun solve(name: String, init: Solution.() -> Unit) =
+    Solution(name).let { solution ->
         solution.init()
         solution.execute()
-    }
-
-fun solve(name: String, init: Solution<String>.() -> Unit) =
-    solve<String>(name) {
-        mapper { it }
-
-        init(this)
     }
