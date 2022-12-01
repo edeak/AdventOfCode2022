@@ -37,7 +37,7 @@ fun <T> cartesianProduct(vararg lists: List<T>): List<List<T>> =
 fun Collection<Int>.product() = this.fold(1) { acc, i -> acc * i }
 fun <T> Collection<T>.productOf(selector: (T) -> Long) = this.fold(1L) { acc, i -> acc * selector(i) }
 
-fun <T> Iterable<T>.splitBy(predicate: (T) -> Boolean): Iterable<Iterable<T>> =
+fun <T> Iterable<T>.chunkedBy(predicate: (T) -> Boolean): Iterable<Iterable<T>> =
     this.let { input ->
         val outer = mutableListOf(mutableListOf<T>())
         var inner = mutableListOf<T>()
