@@ -26,7 +26,7 @@ fun <T, K> MutableMap<T, K>.insertOrUpdate(key: T, insertValue: K, updateFunctio
         ?: run { this[key] = insertValue }
 }
 
-fun <K, V> Iterable<Pair<K, V>>.toMutableMap() = this.toMap().toMutableMap()
+fun <K, V> Iterable<Pair<K, V>>.toMutableMap(): MutableMap<K, V> = this.toMap().toMutableMap()
 
 fun <T> cartesianProduct(vararg lists: List<T>): List<List<T>> =
     lists
