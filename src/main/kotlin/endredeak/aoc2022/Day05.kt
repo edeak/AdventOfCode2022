@@ -1,7 +1,5 @@
 package endredeak.aoc2022
 
-import endredeak.aoc2022.lib.utils.toMutableMap
-
 fun main() {
     solve("Supply Stacks") {
         val regex = Regex("move (\\d+) from (\\d+) to (\\d+)")
@@ -29,7 +27,7 @@ fun main() {
                         .let { (s, f, t) -> Move(s.toInt(), f.toInt(), t.toInt()) }
                 }
 
-            stacks.map { (k, v) -> k to v.reversed().toMutableList() }.toMutableMap() to moves
+            stacks.map { (k, v) -> k to v.reversed().toMutableList() }.toMap().toMutableMap() to moves
         }
 
         fun runMoving(reversed: Boolean) =

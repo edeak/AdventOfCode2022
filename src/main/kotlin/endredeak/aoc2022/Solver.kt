@@ -30,8 +30,10 @@ data class Solution(val name: String) {
         expected2 = expected; part2 = block
     }
 
-    val lines = File("$RESOURCE_PATH/${dayFormatted}.txt")
-        .readLines()
+    private val file by lazy { File("$RESOURCE_PATH/${dayFormatted}.txt") }
+
+    val lines by lazy { file.readLines() }
+    val text by lazy { file.readText() }
 
     fun execute() {
         runPart(1, part1)

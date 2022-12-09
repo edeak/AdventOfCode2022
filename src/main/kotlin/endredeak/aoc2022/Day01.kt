@@ -1,12 +1,11 @@
 package endredeak.aoc2022
 
-import endredeak.aoc2022.lib.utils.chunkedBy
-
 fun main() {
     solve("Calorie Counting") {
-        val input = lines
-            .chunkedBy { it.isEmpty() }
-            .map { it.sumOf(String::toInt) }
+        val input = text
+            .split("\n\n")
+            .map { it.split("\n").sumOf(String::toInt) }
+
 
         part1(72478) {
             input.max()
