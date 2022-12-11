@@ -41,15 +41,19 @@ fun main() {
                             p[5].substringAfter("monkey ").toInt()
                         )
                     }
-            }
+            } to text.split("\n")
+            .filter { it.contains("divisible by") }
+            .map { it.substringAfter("by ") }
+            .map { it.toLong() }
+            .fold(1L) { f, s -> f * s }
 
-        fun run(rounds: Int, worryOp: (Long) -> Long) =
+        fun run(rounds: Int, calculateWorry: (Long) -> Long) =
             input()
-                .let { monkeys ->
+                .let { (monkeys, d) ->
                     repeat(rounds) { _ ->
                         monkeys.forEach { (_, m) ->
                             while (m.items.isNotEmpty()) {
-                                val n = worryOp(m.op(m.items.removeFirst()))
+                                val n = calculateWorry(m.op(m.items.removeFirst()) % d)
                                 run {
                                     if (n % m.divider == 0L) monkeys[m.ifTrue] else monkeys[m.ifFalse]
                                 }!!.items.add(n)
@@ -67,15 +71,6 @@ fun main() {
 
         part1(64032) { run(20) { it / 3 } }
 
-        part2(12729522272) {
-            text.split("\n")
-                .filter { it.contains("divisible by") }
-                .map { it.substringAfter("by ") }
-                .map { it.toLong() }
-                .fold(1L) { f, s -> f * s }
-                .let { d ->
-                    run(10000) { it % d }
-                }
-        }
+        part2(12729522272) { run(10000) { it } }
     }
 }
