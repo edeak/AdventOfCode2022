@@ -1,15 +1,16 @@
 package endredeak.aoc2022
 
-data class P(val x: Int, val y: Int, val w: Int)
-fun List<P>.linesOfSight(p: P, reversed: Boolean = false) =
-    listOf(this.filter { it.x == p.x }.sortedBy { it.x }, this.filter { it.y == p.y }.sortedBy { it.y })
-        .flatMap { line ->
-            val before = line.takeWhile { it != p }.let { if (reversed) it.reversed() else it }
-            val after = line.drop(before.size + 1)
-            listOf(before, after)
-        }
-
 fun main() {
+    data class P(val x: Int, val y: Int, val w: Int)
+
+    fun List<P>.linesOfSight(p: P, reversed: Boolean = false) =
+        listOf(this.filter { it.x == p.x }.sortedBy { it.x }, this.filter { it.y == p.y }.sortedBy { it.y })
+            .flatMap { line ->
+                val before = line.takeWhile { it != p }.let { if (reversed) it.reversed() else it }
+                val after = line.drop(before.size + 1)
+                listOf(before, after)
+            }
+
     solve("Treetop Tree House") {
         val input = lines
             .map { it.toCharArray().map { c -> c.digitToInt() } }
