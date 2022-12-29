@@ -1,24 +1,25 @@
 package endredeak.aoc2022
 
-data class Dir(
-    val name: String,
-    var size: Long = 0,
-    val parent: Dir? = null,
-    val children: MutableList<Dir> = mutableListOf()
-) {
-    operator fun get(name: String) = this.children.first { it.name == name }
-
-    fun addSize(size: Long) {
-        var curr: Dir? = this
-        while (curr != null) {
-            curr.size += size
-            curr = curr.parent
-        }
-    }
-}
-
 fun main() {
     solve("No Space Left On Device") {
+        data class Dir(
+            val name: String,
+            var size: Long = 0,
+            val parent: Dir? = null,
+            val children: MutableList<Dir> = mutableListOf()
+        ) {
+            operator fun get(name: String) = this.children.first { it.name == name }
+
+            fun addSize(size: Long) {
+                var curr: Dir? = this
+                while (curr != null) {
+                    curr.size += size
+                    curr = curr.parent
+                }
+            }
+        }
+
+
         val input = run {
             val root = Dir("/")
             var curr = root

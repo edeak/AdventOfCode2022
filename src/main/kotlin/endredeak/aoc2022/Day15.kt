@@ -2,14 +2,15 @@ package endredeak.aoc2022
 
 import kotlin.math.abs
 
-fun Pair<Int, Int>.manhattanRange(m: Int): Pair<IntRange, IntRange> =
-    (this.first - m..this.first + m) to (this.second - m..this.second + m)
-
-infix fun Pair<Int, Int>.manhattan(other: Pair<Int, Int>) =
-    abs(this.first - other.first) + abs(this.second - other.second)
-
 fun main() {
     solve("Beacon Exclusion Zone") {
+
+        fun Pair<Int, Int>.manhattanRange(m: Int): Pair<IntRange, IntRange> =
+            (this.first - m..this.first + m) to (this.second - m..this.second + m)
+
+        infix fun Pair<Int, Int>.manhattan(other: Pair<Int, Int>) =
+            abs(this.first - other.first) + abs(this.second - other.second)
+
         val input = lines
             .map { Regex(".*x=(-?\\d+), y=(-?\\d+).*x=(-?\\d+), y=(-?\\d+)").find(it)!!.destructured }
             .map { m -> m.toList().map { it.toInt() } }

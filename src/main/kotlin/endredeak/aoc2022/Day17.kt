@@ -2,30 +2,31 @@ package endredeak.aoc2022
 
 import kotlin.math.absoluteValue
 
-fun Char.asMove() =
-    when (this) {
-        '>' -> 1 to 0
-        '<' -> -1 to 0
-        else -> error("waat")
-    }
-
-infix fun Set<Pair<Int, Int>>.move(m: Pair<Int, Int>) =
-    m.let { (mx, my) -> this.map { (x, y) -> x + mx to y + my } }.toSet()
-
-fun <T> List<T>.nth(n: Int) = this[n % this.size]
-val p = listOf(
-    setOf(0 to 0, 1 to 0, 2 to 0, 3 to 0),
-    setOf(1 to 0, 0 to -1, 1 to -1, 2 to -1, 1 to -2),
-    setOf(0 to 0, 1 to 0, 2 to 0, 2 to -1, 2 to -2),
-    setOf(0 to 0, 0 to -1, 0 to -2, 0 to -3),
-    setOf(0 to 0, 1 to 0, 0 to -1, 1 to -1)
-)
-
 fun main() {
     /**
      * Ported Todd's solution: https://todd.ginsberg.com/post/advent-of-code/2022/day17/
      */
     solve("Pyroclastic Flow") {
+        fun Char.asMove() =
+            when (this) {
+                '>' -> 1 to 0
+                '<' -> -1 to 0
+                else -> error("waat")
+            }
+
+        infix fun Set<Pair<Int, Int>>.move(m: Pair<Int, Int>) =
+            m.let { (mx, my) -> this.map { (x, y) -> x + mx to y + my } }.toSet()
+
+        fun <T> List<T>.nth(n: Int) = this[n % this.size]
+
+        val p = listOf(
+            setOf(0 to 0, 1 to 0, 2 to 0, 3 to 0),
+            setOf(1 to 0, 0 to -1, 1 to -1, 2 to -1, 1 to -2),
+            setOf(0 to 0, 1 to 0, 2 to 0, 2 to -1, 2 to -2),
+            setOf(0 to 0, 0 to -1, 0 to -2, 0 to -3),
+            setOf(0 to 0, 1 to 0, 0 to -1, 1 to -1)
+        )
+
         val input = lines.first().map { it.asMove() }
 
         val grid = (0..6).map { it to 0 }.toMutableSet()

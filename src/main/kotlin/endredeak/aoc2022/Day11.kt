@@ -1,16 +1,16 @@
 package endredeak.aoc2022
 
-data class Monkey(
-    val items: ArrayDeque<Long>,
-    val op: (Long) -> Long,
-    val divider: Long,
-    val ifTrue: Int,
-    val ifFalse: Int,
-    var activity: Long = 0
-)
-
 fun main() {
     solve("Monkey in the Middle") {
+        data class Monkey(
+            val items: ArrayDeque<Long>,
+            val op: (Long) -> Long,
+            val divider: Long,
+            val ifTrue: Int,
+            val ifFalse: Int,
+            var activity: Long = 0
+        )
+
         fun input() = text
             .split("\n\n")
             .associate { monkeyLines ->
